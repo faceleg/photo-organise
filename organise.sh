@@ -7,6 +7,7 @@ usage: $0 options
 OPTIONS:
   -t	the directory files should be moved TO
   -f	the directory files should be moved FROM
+  -e the exiftool binary location (defaults to /usr/bin/exiftool)
 EOF
 }
 
@@ -17,6 +18,7 @@ function abs_path {
 
 TO_DIRECTORY=
 FROM_DIRECTORY=
+EXIFTOOL_BIN=
 while getopts "t:f:" OPTION
 do
   case $OPTION in
@@ -25,6 +27,9 @@ do
       ;;
     t)
       FROM_DIRECTORY=$OPTARG
+      ;;
+    e)
+      EXIFTOOL_BIN=$OPTARG
       ;;
     ?)
       usage
@@ -39,6 +44,9 @@ fi
 if [ -z $FROM_DIRECTORY ]; then
   usage
   exit
+fi
+if [ -z $EXIFTOOL_BIN ]; then
+  EXIFTOOL_BIN=/usr/bin/exiftool
 fi
 
 # Verify arguments are directories, symlinks not allowed
@@ -55,5 +63,5 @@ if [[ ! -d "$TO_DIRECTORY" || -L "$TO_DIRECTORY" ]]; then
   exit
 fi
 
-exiftool -r -d "$TO_DIRECTORY/%Y/%Y-%m-%d/%Y-%m-%d_%H:%M:%S.%%e" "-filename<datetimeoriginal" "$FROM_DIRECTORY"
+$EXIFTOOL_BIN -r -d "$TO_DIRECTORY/%Y/%Y-%m-%d/%Y-%m-%d_%H:%M:%S.%%e" "-filename<datetimeoriginal" "$FROM_DIRECTORY"
 
