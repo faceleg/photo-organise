@@ -22,10 +22,10 @@ EXIFTOOL_BIN=
 while getopts "t:f:" OPTION
 do
   case $OPTION in
-    f)
+    t)
       TO_DIRECTORY=$OPTARG
       ;;
-    t)
+    f)
       FROM_DIRECTORY=$OPTARG
       ;;
     e)
@@ -63,5 +63,11 @@ if [[ ! -d "$TO_DIRECTORY" || -L "$TO_DIRECTORY" ]]; then
   exit
 fi
 
-$EXIFTOOL_BIN -r -d "$TO_DIRECTORY/%Y/%Y-%m-%d/%Y-%m-%d_%H:%M:%S.%%e" "-filename<datetimeoriginal" "$FROM_DIRECTORY"
+$EXIFTOOL_BIN -r \
+  -d "$TO_DIRECTORY/%Y/%Y-%m-%d/%Y-%m-%d_%H:%M:%S.%%e" \
+  "-filename<datetimeoriginal" \
+  "-filename<CreateDate" \
+  "-filename<MediaCreateDate" \
+  "-filename<FileCreateDate" \
+  "$FROM_DIRECTORY"
 
