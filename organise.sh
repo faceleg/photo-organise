@@ -64,7 +64,7 @@ if [[ ! -d "$TO_DIRECTORY" || -L "$TO_DIRECTORY" ]]; then
 fi
 
 $EXIFTOOL_BIN -r \
-  -d "$TO_DIRECTORY/%Y/%Y-%m-%d/%Y-%m-%d_%H:%M:%S%%c.%%e" \
+  -d "$TO_DIRECTORY/%Y/%Y-%m-%d/%Y-%m-%d_%H-%M-%S%%c.%%e" \
   "-filename<datetimeoriginal" \
   "-filename<CreateDate" \
   "-filename<MediaCreateDate" \
