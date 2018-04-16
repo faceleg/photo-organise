@@ -64,10 +64,15 @@ if [[ ! -d "$TO_DIRECTORY" || -L "$TO_DIRECTORY" ]]; then
 fi
 
 $EXIFTOOL_BIN -r \
-  -d "$TO_DIRECTORY/%Y/%Y-%m-%d/%Y-%m-%d_%H-%M-%S%%c.%%e" \
+  -ext+ AVI -ext+ avi \
+  -ext+ FLV -ext+ flv \
+  -ext+ mpeg -ext+ mpeg \
+  -ext+ MPG -ext+ mpg \
+  -d "$TO_DIRECTORY/%Y/%m/%d/%Y-%m-%d_%H-%M-%S%%c.%%e" \
   "-filename<datetimeoriginal" \
   "-filename<CreateDate" \
   "-filename<MediaCreateDate" \
   "-filename<FileCreateDate" \
+  "-filename<ModifyDate" \
+  "-filename<FileModifyDate" \
   "$FROM_DIRECTORY"
-
